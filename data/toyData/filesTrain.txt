@@ -1,0 +1,2 @@
+./toyData/train/cows/1_13_s.png
+./toyData/train/sheep/9_11_s.png
