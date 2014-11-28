@@ -11,7 +11,7 @@ function initWorkspacePatchDiscovery
         COLORNAMESDIR   = '~freytag/code/3rdParty/colorDescriptorCVC/';
         DISCRIMCOLORDIR = '~freytag/code/3rdParty/ColorNaming/';
         IHOGDIR         = '~freytag/code/3rdParty/inverseHoG/';
-        VLFEATDIR       = '~freytag/code/3rdParty/vlfeat/';
+        VLFEATDIR       = '~freytag/code/3rdParty/vlfeat/toolbox/';
     elseif strcmp( getenv('USER'), 'alex')
         WHODIR          = '~/src/matlab/patchesAndStuff/whoEfficient/';
         SEGMENTATIONDIR = '~/src/matlab/patchesAndStuff/segment/';
@@ -20,7 +20,7 @@ function initWorkspacePatchDiscovery
         DISCRIMCOLORDIR = '~/code/3rdParty/ColorNaming/';
         LIBSMVDIR       = '';
         IHOGDIR         = '~/code/thirdParty/inverseHoG/';
-        VLFEATDIR       = '~/code/thirdParty/vlfeat/';        
+        VLFEATDIR       = '~/code/thirdParty/vlfeat/toolbox/';        
     elseif strcmp( getenv('USER'), 'freytag')
         WHODIR          = '~/code/matlab/patchesAndStuff/whoEfficient/';
         SEGMENTATIONDIR = '~/code/matlab/patchesAndStuff/segment/';
@@ -29,107 +29,192 @@ function initWorkspacePatchDiscovery
         COLORNAMESDIR   = '~/code/3rdParty/colorDescriptorCVC/';
         DISCRIMCOLORDIR = '~/code/3rdParty/ColorNaming/';
         IHOGDIR         = '~/code/3rdParty/inverseHoG/';
-        VLFEATDIR       = '~/code/3rdParty/vlfeat/';        
+        VLFEATDIR       = '~/code/3rdParty/vlfeat/toolbox/';        
     else
         fprintf('Unknown user %s and unknown default settings', getenv('USER') ); 
     end
 
     %% add paths
     
+    % add main path
+    b_recursive            = false; 
+    b_overwrite            = true;
+    s_pathMain             = fullfile(pwd);
+    addPathSafely ( s_pathMain, b_recursive, b_overwrite )
+    clear ( 's_pathMain' );      
+    
     % stuff for variable settings
     addpath( genpath( fullfile(pwd, 'setupVariables') ) );
+    b_recursive             = true; 
+    b_overwrite             = true;
+    s_pathSetupVariables    = fullfile(pwd, 'setupVariables');
+    addPathSafely ( s_pathSetupVariables, b_recursive, b_overwrite )
+    clear ( 's_pathSetupVariables' );     
     
-    % stuff for patch generation
-    addpath('seeding');
-    addpath('expansion');
-    addpath('selection');
+    % patch proposal generation
+    b_recursive             = true; 
+    b_overwrite             = true;
+    s_pathPatchSeeding      = fullfile(pwd, 'seeding');
+    addPathSafely ( s_pathPatchSeeding, b_recursive, b_overwrite )
+    clear ( 's_pathPatchSeeding' );     
+
+    % bootstrapping of patch detectors
+    b_recursive             = true; 
+    b_overwrite             = true;
+    s_pathPatchExpansion    = fullfile(pwd, 'expansion');
+    addPathSafely ( s_pathPatchExpansion, b_recursive, b_overwrite )
+    clear ( 's_pathPatchExpansion' );   
+    
+    % selection of patch detectors 
+    b_recursive             = true; 
+    b_overwrite             = true;
+    s_pathPatchSelection    = fullfile(pwd, 'selection');
+    addPathSafely ( s_pathPatchSelection, b_recursive, b_overwrite )
+    clear ( 's_pathPatchSelection' );     
     
     % visualization and debugging stuff
-    addpath( genpath( fullfile(pwd, 'visualization') ) );
+    b_recursive             = true; 
+    b_overwrite             = true;
+    s_pathVisualizations    = fullfile(pwd, 'visualization');
+    addPathSafely ( s_pathVisualizations, b_recursive, b_overwrite )
+    clear ( 's_pathVisualizations' );     
     
     % prepocessing for BoP features
-    addpath('bop_features_postProcessing');
+    b_recursive             = true; 
+    b_overwrite             = true;
+    s_pathBOPpostpro        = fullfile(pwd, 'bop_features_postProcessing');
+    addPathSafely ( s_pathBOPpostpro, b_recursive, b_overwrite )
+    clear ( 's_pathBOPpostpro' );     
     
     % everything related to feature computation, e.g., HOG computation,
     % Bag-of-part-feature generation, ...
-    addpath( genpath( fullfile(pwd, 'features') ) );
+    b_recursive             = true; 
+    b_overwrite             = true;
+    s_pathFeatures          = fullfile(pwd, 'features');
+    addPathSafely ( s_pathFeatures, b_recursive, b_overwrite )
+    clear ( 's_pathFeatures' );     
     
     % exemplar aspect stuff
-    addpath( genpath( fullfile(pwd, 'nnQuery') ) );
+    b_recursive             = true; 
+    b_overwrite             = true;
+    s_pathExemplarAspects   = fullfile(pwd, 'nnQuery');
+    addPathSafely ( s_pathExemplarAspects, b_recursive, b_overwrite )
+    clear ( 's_pathExemplarAspects' );     
     
     % stuff, e.g., computation of intersection over union and entropy rank
     % curves
-    addpath( genpath( fullfile(pwd, 'misc') ) );
+    b_recursive             = true; 
+    b_overwrite             = true;
+    s_pathMisc              = fullfile(pwd, 'misc');
+    addPathSafely ( s_pathMisc, b_recursive, b_overwrite )
+    clear ( 's_pathMisc' );     
     
     % a large collection of evaluation scripts
-    addpath( genpath( fullfile(pwd, 'evaluation') ) );
+    b_recursive             = true; 
+    b_overwrite             = true;
+    s_pathEvaluations       = fullfile(pwd, 'evaluation');
+    addPathSafely ( s_pathEvaluations, b_recursive, b_overwrite )
+    clear ( 's_pathEvaluations' );     
      
     
     % data and data generation
-    addpath( genpath( fullfile(pwd, 'data') ) );
+    b_recursive             = false; 
+    b_overwrite             = true;
+    s_pathData              = fullfile(pwd, 'data');
+    addPathSafely ( s_pathData, b_recursive, b_overwrite )
+    clear ( 's_pathData' );     
     
     % some demos showing how everything works
     addpath( genpath( fullfile(pwd, 'demos') ) );
-    
-    % add path for fast convolution stuff
-    addpath('clusterdetect');
+    b_recursive             = true; 
+    b_overwrite             = true;
+    s_pathDemos             = fullfile(pwd, 'demos');
+    addPathSafely ( s_pathDemos, b_recursive, b_overwrite )
+    clear ( 's_pathDemos' );     
+       
 
     %% 3rd party projects, developed in our group
 
     % object detection code with LDA models and HOG feature extraction
     if ( isempty(WHODIR) )
-        fprintf('WARNING = no WHODIR dir found on your machine. Code is available at https://github.com/cvjena/whoGeneric.git \n');
+        fprintf('InitPatchDiscovery-WARNING - no WHODIR dir found on your machine. Code is available at https://github.com/cvjena/whoGeneric.git \n');
     else
-        addpath(genpath(WHODIR));
+        currentDir = pwd;
+        cd ( WHODIR );
+        initWorkspaceWHOGeneric;
+        cd ( currentDir );          
     end  
     
     % segmentation (felzenszwalb)
     if ( isempty(SEGMENTATIONDIR) )
-        fprintf('WARNING = no SEGMENTATIONDIR dir found on your machine. Code is available at git@dbv.inf-cv.uni-jena.de:matlab-tools/felzenszwalb-segmentation.git \n');
+        fprintf('InitPatchDiscovery-WARNING -  no SEGMENTATIONDIR dir found on your machine. Code is available at git@dbv.inf-cv.uni-jena.de:matlab-tools/felzenszwalb-segmentation.git \n');
     else
-        addpath(genpath(SEGMENTATIONDIR));
+        currentDir = pwd;
+        cd ( SEGMENTATIONDIR );
+        initWorkspaceSegmentation;
+        cd ( currentDir );         
     end    
     
     
     %% 3rd party projects, untouched, developed by external groups
     if ( isempty(LIBLINEARDIR) )
-        fprintf('WARNING = no LIBLINEARDIR dir found on your machine. Code is available at http://www.csie.ntu.edu.tw/~cjlin/liblinear/ \n');
+        fprintf('InitPatchDiscovery-WARNING - no LIBLINEARDIR dir found on your machine. Code is available at http://www.csie.ntu.edu.tw/~cjlin/liblinear/ \n');
     else
-        addpath(genpath(LIBLINEARDIR));
+        b_recursive             = true; 
+        b_overwrite             = true;
+        addPathSafely ( LIBLINEARDIR, b_recursive, b_overwrite );        
     end   
     
     if ( isempty(LIBSMVDIR) )
-        fprintf('WARNING = no LIBSMVDIR dir found on your machine. Code is available at https://github.com/cjlin1/libsvm/ \n');
+        fprintf('InitPatchDiscovery-WARNING - no LIBSMVDIR dir found on your machine. Code is available at https://github.com/cjlin1/libsvm/ \n');
     else
-        addpath(genpath(LIBSMVDIR));
+        b_recursive             = true; 
+        b_overwrite             = true;
+        addPathSafely ( LIBSMVDIR, b_recursive, b_overwrite );        
     end       
     
     
 
     if ( isempty(COLORNAMESDIR) )
-        fprintf('WARNING = no COLORNAMESDIR dir found on your machine. Code is available at http://cat.uab.es/~joost/software.html \n');
+        fprintf('InitPatchDiscovery-WARNING - no COLORNAMESDIR dir found on your machine. Code is available at http://cat.uab.es/~joost/software.html \n');
     else
-        addpath(genpath(COLORNAMESDIR));
+        b_recursive             = true; 
+        b_overwrite             = true;
+        addPathSafely ( COLORNAMESDIR, b_recursive, b_overwrite );           
     end
     
     if ( isempty(DISCRIMCOLORDIR) )
-        fprintf('WARNING = no DISCRIMCOLORDIR dir found on your machine. Code is available at http://cat.uab.es/~joost/software.html \n');
+        fprintf('InitPatchDiscovery-WARNING - no DISCRIMCOLORDIR dir found on your machine. Code is available at http://cat.uab.es/~joost/software.html \n');
     else
-        addpath(genpath(DISCRIMCOLORDIR));
+        b_recursive             = true; 
+        b_overwrite             = true;
+        addPathSafely ( DISCRIMCOLORDIR, b_recursive, b_overwrite );          
     end      
     
     
     if ( isempty(IHOGDIR) )
-        fprintf('WARNING = no IHOG dir found on your machine. Code is available at https://github.com/CSAILVision/ihog \n');
+        fprintf('InitPatchDiscovery-WARNING - no IHOG dir found on your machine. Code is available at https://github.com/CSAILVision/ihog \n');
     else
-        addpath(genpath(IHOGDIR));
+        b_recursive             = true; 
+        b_overwrite             = true;
+        addPathSafely ( IHOGDIR, b_recursive, b_overwrite );        
     end  
 
 
     if ( isempty(VLFEATDIR) )
-        fprintf('WARNING = no VLFEATDIR dir found on your machine. Code is available at http://www.vlfeat.org/ \n');
+        fprintf('InitPatchDiscovery-WARNING - no VLFEATDIR dir found on your machine. Code is available at http://www.vlfeat.org/ \n');
     else
-        addpath(genpath(VLFEATDIR));
+        currentDir = pwd;
+        cd ( VLFEATDIR );
+        try
+            vl_setup;
+        catch err
+            % we got an error and abort, but go to our initial directory
+            % before
+            cd ( currentDir );
+            assert ( false, 'InitPatchDiscovery-WARNING -- error during vl_setup, aborting...');
+        end
+        cd ( currentDir );
     end      
     
     %% clean up
@@ -143,4 +228,26 @@ function initWorkspacePatchDiscovery
     clear( 'IHOGDIR' );
     clear( 'VLFEATDIR' );
     
+end
+
+
+function addPathSafely ( s_path, b_recursive, b_overwrite )
+    if ( ~isempty(strfind(path, [s_path , pathsep])) )
+        if ( b_overwrite )
+            if ( b_recursive )
+                rmpath( genpath( s_path ) );
+            else
+                rmpath( s_path );
+            end
+        else
+            fprintf('InitPatchDiscovery - %s already in your path but overwriting de-activated.\n', s_path);
+            return;
+        end
+    end
+    
+    if ( b_recursive )
+        addpath( genpath( s_path ) );
+    else
+        addpath( s_path );
+    end
 end
