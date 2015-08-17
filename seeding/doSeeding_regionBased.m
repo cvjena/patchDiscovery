@@ -93,6 +93,11 @@ function [ seedingBlocks, seedingBlockLabels ] = doSeeding_regionBased(dataset, 
       imgOrig = readImage( dataset.images{ dataset.trainImages(i) });
       imgOrigNonMasked = imgOrig;
       
+      if ( b_verbose )
+          figOrig = figure;
+          imshow ( imgOrig );
+      end
+      
       if ( b_maskImages )
           try 
             mask        = readMask( dataset.images{ dataset.trainImages(i) } );
@@ -508,7 +513,7 @@ function [ seedingBlocks, seedingBlockLabels ] = doSeeding_regionBased(dataset, 
           set ( bbFig, 'name', 'Orig images with bb and centroids');
           imshow(imgOrigNonMasked)
  
-          b_showBackgroundInGray = getFieldWithDefault ( settingsSeeding, 'b_showBackgroundInGray', true );
+          b_showBackgroundInGray = getFieldWithDefault ( settingsSeeding, 'b_showBackgroundInGray', false );
           
           if ( b_showBackgroundInGray )
               I=rgb2gray(imgOrigNonMasked);   
@@ -538,6 +543,7 @@ function [ seedingBlocks, seedingBlockLabels ] = doSeeding_regionBased(dataset, 
             pause
           end
           close(bbFig);
+          close(figOrig);
       end
       
       i_currentNoBlocks = size ( boundingBoxesImg, 1 );

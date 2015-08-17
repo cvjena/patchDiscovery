@@ -45,12 +45,24 @@ function out = demo1_seeding
 
 
     % add default settings to not specified variables
-    settingsSeeding = setupVariables_Seeding( settingsSeeding );    
+    settingsSeeding = setupVariables_Seeding( settingsSeeding );  
+    settingsSeeding.b_showBackgroundInGray = false;
+    
+    
+
 
     %%
     % run everything
+       
+%     % manually specified regions
+%     [ seedingBlocks, seedingBlockLabels ] = ...
+%         doSeeding_groundTruthParts( dataset, settingsSeeding );    
+    
+    % part-proposals
     [ seedingBlocks, seedingBlockLabels ] = ...
-        doSeeding_regionBased( dataset, settingsSeeding );
+        doSeeding_regionBased( dataset, settingsSeeding );    
+    
+   
 
    
     if ( nargout > 0 )

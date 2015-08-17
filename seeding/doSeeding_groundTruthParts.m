@@ -81,6 +81,11 @@ function [ seedingBlocks, seedingBlockLabels ] = doSeeding_groundTruthParts(data
         
         imgOrig = readImage( dataset.images{ dataset.trainImages(i) });
         
+        if ( b_verbose )
+            figOrig = figure;
+            imshow ( imgOrig );
+        end        
+        
         i_imgHeight = size(imgOrig,1);
         i_imgWidth = size(imgOrig,2);        
       
@@ -161,6 +166,7 @@ function [ seedingBlocks, seedingBlockLabels ] = doSeeding_groundTruthParts(data
                 pause
             end
             close(bbFig);
+           close(figOrig);            
         end      
             
      
