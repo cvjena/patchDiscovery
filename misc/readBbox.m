@@ -35,6 +35,7 @@ function [bbox] = readBbox( s_imgfn )
             images = textscan(fid, '%s %s');
             fclose(fid);
 
+            % searcg for ID of that specific image            
             imageId = find(strcmp(images{2}, sprintf('%s/%s',className, imgName)  ));
             assert(length(imageId) == 1);
             

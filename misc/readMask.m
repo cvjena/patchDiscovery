@@ -36,7 +36,7 @@ function mask = readMask( imageName, settings )
             bbox.bottom = size(im,1);
         end
         
-        mask = grabCutMex(im,[bbox.lseft bbox.top bbox.right-bbox.left bbox.bottom-bbox.top]);
+        mask = grabCutMex(im,[bbox.left bbox.top bbox.right-bbox.left bbox.bottom-bbox.top]);
     elseif ( strcmp ( s_maskTechnique, 'bbox' ) )
         im   = imread(imageName);
         mask = false( size(im,1),size(im,2) );                

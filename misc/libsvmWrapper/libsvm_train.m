@@ -47,7 +47,7 @@ function svmmodel = libsvm_train ( labels, feat, settings )
     s_kernel_type = getFieldWithDefault ( settings, 's_kernel_type', '2');
     libsvm_options = sprintf('%s -t %s', libsvm_options, s_kernel_type);
 
-    % cost parameter
+    % cost parameter (default 1)
     f_svm_C = getFieldWithDefault ( settings, 'f_svm_C', 1);
     libsvm_options = sprintf('%s -c %f', libsvm_options, f_svm_C);    
     
@@ -62,7 +62,7 @@ function svmmodel = libsvm_train ( labels, feat, settings )
     uniqueLabels = unique ( labels );
     i_numClasses = size ( uniqueLabels,1);
 	
-    %# train one-against-all models
+    % train one-against-all models
     svmmodel = cell( i_numClasses,1);
     for k=1:i_numClasses
         yBin        = 2*double( labels == uniqueLabels(k) )-1;

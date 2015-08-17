@@ -3,7 +3,7 @@ function scores = scoreBlocks(features, detector)
 %
 % BRIEF: Compute detection scores for several blocks with pre-computed 
 %        features using a single detector. Scoring is done by elementwise
-%        multiplication of weight entries and features values.
+%        multiplication of weight entries and feature values.
 %
 % INPUT: 
 %        features     --   struct of size (1 x numBlocks), every entry has 
