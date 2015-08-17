@@ -27,7 +27,9 @@ function [matchingIdx,matchingDist] = doNNQuery ( imagesTrain, imageQuery, setti
    
     if exist( s_destCacheMatching,'file')
         load( s_destCacheMatching, 'hog_train_both');
-    else
+    end
+    
+    if ( ~exist( 'hog_train_both', 'var' ) )
 
         hog_train = [];
         hog_train_flipped = [];

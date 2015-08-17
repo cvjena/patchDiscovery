@@ -164,21 +164,30 @@ function demo5_nnMatchingAndClassification
                                 '/home/freytag/experiments/2014-03-13-nnMatchingCUB200/200/nnMatchingCUB200.mat') , ...
                                     'birdNNMatching'...
                                   );
+                              
+        nnMatching  = birdNNMatching.idxSorted;    
+        nrClasses   = birdNNMatching.nrClasses;                               
+        
         catch err
             disp ( '*** No cached matching loadable - perform NN matching on the fly. *** ')
         end
     end
     
-    nnMatching  = birdNNMatching.idxSorted;    
-    nrClasses   = birdNNMatching.nrClasses;    
+   
     
             
     %     
     global datasetCUB200;    
     if ( isempty ( datasetCUB200 ) )
-        settingsInitCUB.i_numClasses = nrClasses;
+        if ( exist( 'nrClasses', 'var' ) )
+            settingsInitCUB.i_numClasses = nrClasses;
+        else
+            % no cache for nnMatching found previously, so use the default
+            % version with all 200 categories
+            settingsInitCUB.i_numClasses = 200;
+        end
         datasetCUB200 = initCUB200_2011 ( settingsInitCUB ) ;
-    end      
+    end     
     
     if ( isempty ( datasetCUB200 ) )
         disp(' *** WARNING: NO DATASET SPECIFIED, AND NOT CACHE FOUND. ABORTING! ***')
